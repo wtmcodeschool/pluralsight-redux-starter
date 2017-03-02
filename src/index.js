@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ShowGifs from './components/ShowGifs';
 import SearchGifs from './components/SearchGifs';
+import util from 'util';
 
 const testGifs = [
   {
@@ -13,11 +14,25 @@ const testGifs = [
 ];
 
 class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      images: testGifs
+    };
+    this.addNewImage = this.addNewImage.bind(this);
+  }
+
+  addNewImage(img) {
+    testGifs.push(img);
+    this.setState({images: testGifs});
+  }
+
   render() {
     return (
       <div>
-        <SearchGifs/>
-        <ShowGifs gifs={testGifs}/>
+        <SearchGifs addNewImage={this.addNewImage}/>
+        <ShowGifs gifs={this.state.images}/>
       </div>
     );
   }

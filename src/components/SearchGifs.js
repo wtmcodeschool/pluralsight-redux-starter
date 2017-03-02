@@ -26,7 +26,7 @@ class SearchGifs extends React.Component {
     event.preventDefault();
     console.log("We got a new gif " +
       this.state.name + ":" + this.state.description + ":" + this.state.url);
-    //this.props.addNewImage(newImage);
+    this.props.addNewImage(this.state);
   }
 
   render() {
@@ -51,5 +51,9 @@ class SearchGifs extends React.Component {
     );
   }
 }
+
+SearchGifs.propTypes = {
+  addNewImage: React.PropTypes.func
+};
 
 export default SearchGifs;
