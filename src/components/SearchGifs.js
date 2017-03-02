@@ -9,6 +9,10 @@ class SearchGifs extends React.Component {
       url: "",
       description: ""
     };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleUrlChange = this.handleUrlChange.bind(this);
+    this.handleNewGif = this.handleNewGif.bind(this);
   }
 
   handleNameChange(e) {
@@ -24,8 +28,6 @@ class SearchGifs extends React.Component {
 
   handleNewGif(event) {
     event.preventDefault();
-    console.log("We got a new gif " +
-      this.state.name + ":" + this.state.description + ":" + this.state.url);
     this.props.addNewImage(this.state);
   }
 
@@ -35,18 +37,18 @@ class SearchGifs extends React.Component {
           <legend>Add New Gif</legend>
 
           <div className="form-group">
-            <input onChange={this.handleNameChange.bind(this)} value={this.state.name} type="text" className="form-control" id="keyword" placeholder="keyword"/>
+            <input onChange={this.handleNameChange} value={this.state.name} type="text" className="form-control" id="keyword" placeholder="keyword"/>
           </div>
 
           <div className="form-group">
-            <input onChange={this.handleUrlChange.bind(this)} value={this.state.url}type="text" className="form-control" id="url" placeholder="url"/>
+            <input onChange={this.handleUrlChange} value={this.state.url}type="text" className="form-control" id="url" placeholder="url"/>
           </div>
 
           <div className="form-group">
-            <input onChange={this.handleDescriptionChange.bind(this)} value={this.state.description} type="text" className="form-control" id="description" placeholder="description"/>
+            <input onChange={this.handleDescriptionChange} value={this.state.description} type="text" className="form-control" id="description" placeholder="description"/>
           </div>
 
-          <button onClick={this.handleNewGif.bind(this)} type="submit" className="btn btn-primary">Submit</button>
+          <button onClick={this.handleNewGif} type="submit" className="btn btn-primary">Submit</button>
        </form>
     );
   }
