@@ -1,16 +1,19 @@
 import React from 'react';
+import SoloImageWithButton from './SoloImageWithButton';
 
 ShowGifs.propTypes = {
-  gifs: React.PropTypes.array
+  gifs: React.PropTypes.array,
+  addNewImage: React.PropTypes.func.isRequired,
+  noButton: React.PropTypes.bool,
+  noDeleteButton: React.PropTypes.bool,
+  removeImage: React.PropTypes.func.isRequired,
+  removePic: React.PropTypes.func.isRequired
 };
 
 export default function ShowGifs(props) {
-  let images = props.gifs.map(function(img, index) {
+  let images = props.gifs.map(function(img) {
     return (
-      <div key={index}>
-        <img src={img.url}></img>
-        <h3>{img.description}</h3>
-      </div>
+      <SoloImageWithButton removePic={props.removePic} key={img.name} img={img} removeImage={props.removeImage} addNewImage={props.addNewImage} noButton={props.noButton} noDeleteButton={props.noDeleteButton}/>
     );
   });
   return (
