@@ -1,6 +1,8 @@
 import React from 'react';
 import math from 'mathjs';
-import ShowGifs from "./ShowGifs";
+import { Link } from 'react-router';
+import { Button } from 'react-bootstrap';
+import {observer, inject} from 'mobx-react';
 
 class SearchGiphy extends React.Component{
   constructor(props) {
@@ -9,28 +11,21 @@ class SearchGiphy extends React.Component{
       keyword: "",
       limit: 5,
       random: false,
-      offset: '0',
+      offset: 0,
       foundImages: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeywordChange = this.handleKeywordChange.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
     this.handleRandomChange = this.handleRandomChange.bind(this);
-    this.removeImage = this.removeImage.bind(this);
   }
 
   handleSubmit(e) {
-    if(this.state.random){
-      const newrandom = math.randomInt(100);
-      this.setState({offset: newrandom});
-    }else{
-        this.setState({offset: '0'});
+    let useableoffset = this.state.offset;
+    if(useableoffset != 0){
+      useableoffset = math.randomInt(100);
     }
-    e.preventDefault();
-    fetch(`http://api.giphy.com/v1/gifs/search?q=${this.state.keyword}&api_key=dc6zaTOxFJmzC&limit=${this.state.limit}&offset=${this.state.offset}`)
-      .then(result => result.json())
-      .then(data => this.setState({
-        foundImages: this.convertToShowGifs(this.state.keyword, data.data)}));
+    this.props.imageStore.newGiphySearch(this.state.keyword, this.state.limit, useableoffset);
   }
 
   convertToShowGifs(keyword, foundImages){
@@ -39,16 +34,6 @@ class SearchGiphy extends React.Component{
       url: image.images.original.url,
       description: keyword + " " + image.slug
     }));
-  }
-
-  removeImage(img){
-    let tempArray = this.state.foundImages;
-    for(let i=0; i<tempArray.length ; i++){
-      if(tempArray[i].name == img.name){
-        tempArray.splice(i,1);
-      }
-    }
-    this.setState({foundImages: tempArray});
   }
 
   handleKeywordChange(e) {
@@ -60,32 +45,58 @@ class SearchGiphy extends React.Component{
   }
 
   handleRandomChange(e) {
-    const newrandom = !this.state.random;
-    this.setState({random: newrandom});
+    const offset = math.randomInt(100);
+    if(this.state.random)
+    {
+      this.setState({
+        random: false,
+        offset: 0
+      });
+    }else{
+      this.setState({
+        random: true,
+        offset: offset
+      });
+    }
   }
 
   render() {
     return (
       <div>
-        <form method="" role="form">
-            <legend>Search Giphy</legend>
-            <div>thisdiv</div>
-            <div className="form-group">
-              <input onChange={this.handleKeywordChange} value={this.state.keyword} type="text" className="form-control" id="keyword" placeholder="keyword"/>
-              <input onChange={this.handleLimitChange} value={this.state.limit} type="number" className="form-control" id="limit" placeholder="limit"/>
-              <input onChange={this.handleRandomChange} value={this.state.random} type="checkbox"j id="random"/> Randomize
-            </div>
-            <button onClick={this.handleSubmit} type="submit" className="btn btn-primary">Submit</button>
-         </form>
-         <ShowGifs removePic={this.props.removePic} removeImage={this.removeImage} addNewImage={this.props.addNewImage} gifs={this.state.foundImages} noButton={false} noDeleteButton/>
+        <div className="col-md-3">
+        </div>
+        <div className="col-md-6 well">
+          <form>
+              <legend>Search Giphy</legend>
+              <div className="form-group">
+                <label> Keyword</label>
+                <input onChange={this.handleKeywordChange} value={this.state.keyword} type="text" className="form-control" id="keyword" placeholder="keyword"/>
+              </div>
+              <div className="form-group">
+                <label>Limit</label>
+                <input onChange={this.handleLimitChange} value={this.state.limit} type="number" className="form-control" id="limit" placeholder="limit"/>
+              </div>
+              <div className="form-group">
+                <label> Randomize</label>
+                <input onChange={this.handleRandomChange} value={this.state.random} type="checkbox" id="random"/>
+              </div>
+              <Link to="/searchresults"><Button onClick={this.handleSubmit} type="submit" className="btn btn-primary">Submit</Button></Link>
+           </form>
+         </div>
+         <div className="col-md-3">
+         </div>
+         <div className="col-xs-12 well">
+         {this.props.children}
+         </div>
        </div>
     );
   }
 }
 
 SearchGiphy.propTypes = {
-  addNewImage: React.PropTypes.func.isRequired,
-  removePic: React.PropTypes.func
+  newGiphySearchResults: React.PropTypes.func,
+  imageStore: React.PropTypes.object,
+  children: React.PropTypes.object
 };
 
-export default SearchGiphy;
+export default inject("imageStore")(observer(SearchGiphy));
