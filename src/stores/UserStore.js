@@ -7,7 +7,7 @@ export default class UserStore {
       token: "",
       isadmin: false,
       isloggedin: false,
-      _id: ""
+      _idObject: null
     });
     this.saveNewUser = this.saveNewUser.bind(this);
     this.authenticateUser = this.authenticateUser.bind(this);

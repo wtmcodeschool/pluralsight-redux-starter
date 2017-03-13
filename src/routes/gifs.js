@@ -15,7 +15,7 @@ router.route('/gifs')
     gif.name = req.body.name;
     gif.url = req.body.url;
     gif.description = req.body.description;
-    gif.owner = req.body.owner;
+    gif.user = req.body.user;
 
     gif.save(function(err, gif, next){
       if(err){

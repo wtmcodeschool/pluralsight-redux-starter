@@ -26,7 +26,7 @@ class ImageComponent extends React.Component {
    prepareImageButtons(){
      if(this.props.userStore.isloggedin && this.props.typeofdisplay == "searchresults"){
        return (<Button onClick={this.handleAddNewImageToLibrary} bsStyle="success" block><Glyphicon glyph="plus-sign"/>   Add To Library</Button>);
-     }else if((this.props.userStore.isadmin || this.props.imageinfo.owner == this.props.userStore._id) && this.props.typeofdisplay == "library"){
+     }else if((this.props.userStore.isadmin || this.props.imageinfo.user == this.props.userStore._id) && this.props.typeofdisplay == "library"){
       return (<Button onClick={this.handleRemoveImageFromLibrary} bsStyle="danger" block><Glyphicon glyph="remove-circle"/>   Delete</Button>);
      }else{
         return "";
