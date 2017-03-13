@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute} from 'react-router';
+import { Router, Route, hashHistory, IndexRoute} from 'react-router';
 import { Provider } from 'mobx-react';
 import ControlBox from './components/ControlBox';
 import AddByUrl from './components/AddByUrl';
@@ -14,13 +14,14 @@ import LogOut from './components/LogOut';
 import ImageStore from './stores/ImageStore';
 import UserStore from './stores/UserStore';
 import Welcome from './components/Welcome';
+import Administration from './components/Administration';
 
 const imageStore = new ImageStore();
 const userStore = new UserStore();
 
 ReactDOM.render(
   <Provider imageStore={imageStore} userStore={userStore}>
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
       <Route path="/" component={ControlBox}>
         <IndexRoute component={Welcome} />
         <Route path="/library" component={Library} />
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={LogIn} />
         <Route path="/logout" component={LogOut} />
+        <Route path="/administration" component={Administration} />
       </Route>
     </Router>
   </Provider>

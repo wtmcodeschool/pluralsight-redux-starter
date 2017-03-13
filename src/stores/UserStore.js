@@ -60,9 +60,7 @@ export default class UserStore {
         this.isloggedin = false;
         this.name = "";
       }
-    }
-      // if(result.token){this.name = name}
-    );
+    });
   }
 
 }

@@ -44,7 +44,7 @@ class SignUp extends React.Component {
 
         <div className="form-group">
           <input onChange={this.handlePasswordChange} value={this.state.password}
-          type="text" className="form-control" id="password" placeholder="password"/>
+          type="password" className="form-control" id="password" placeholder="password"/>
         </div>
 
         <Link to="/"><Button onClick={this.handleUserSignUp} type="submit" className="btn btn-primary">Submit</Button></Link>

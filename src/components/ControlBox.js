@@ -17,6 +17,10 @@ class ControlBox extends React.Component {
      this.logOutHandler = this.logOutHandler.bind(this);
    }
 
+   logOutHandler(){
+     this.props.userStore.logUserOut();
+   }
+
    createGifLinks(){
      if(this.props.userStore.isloggedin){
        return(
@@ -31,12 +35,15 @@ class ControlBox extends React.Component {
        }
    }
 
-   logOutHandler(){
-     this.props.userStore.logUserOut();
-   }
-
    createUserLinks(){
-     if(this.props.userStore.isloggedin){
+     if(this.props.userStore.isloggedin && this.props.userStore.isadmin){
+       return (
+         <Nav pullRight>
+         <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
+         <LinkContainer to={{pathname: '/administration'}}><NavItem>Administration</NavItem></LinkContainer>
+         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={() => { this.logOutHandler(); }}>Log Out</NavItem></LinkContainer>
+         </Nav>);
+     }else if(this.props.userStore.isloggedin){
        return (
          <Nav pullRight>
          <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
@@ -55,11 +62,11 @@ class ControlBox extends React.Component {
      const userLinks = this.createUserLinks();
      const gifLinks = this.createGifLinks();
      return (
-       <div className="row text-center">
+       <div className="container-fluid">
           <Navbar inverse>
             <Navbar .Header>
               <Navbar .Brand>
-                <a href="/">Gif Collector</a>
+                <Link to={{pathname: '/'}}>Gif Collector</Link>
               </Navbar .Brand>
             <Navbar .Toggle/>
             </Navbar .Header>
