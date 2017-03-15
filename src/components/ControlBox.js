@@ -34,7 +34,8 @@ class ControlBox extends React.Component {
              <LinkContainer to={{pathname: '/searchgiphy'}}><MenuItem>Search Giphy</MenuItem></LinkContainer>
            </NavDropdown>
          </Nav>
-       );}else{
+       );
+     }else{
          return(
            <Nav>
              <LinkContainer to={{pathname: '/library'}}><NavItem>View Library</NavItem></LinkContainer>
@@ -48,21 +49,21 @@ class ControlBox extends React.Component {
      if(this.props.userStore.isloggedin && this.props.userStore.isadmin){
        return (
          <Nav pullRight>
-         <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
-         <LinkContainer to={{pathname: '/administration'}}><NavItem>Administration</NavItem></LinkContainer>
-         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
+           <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
+           <LinkContainer to={{pathname: '/administration'}}><NavItem>Administration</NavItem></LinkContainer>
+           <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
          </Nav>);
      }else if(this.props.userStore.isloggedin){
        return (
          <Nav pullRight>
-         <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
-         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
+           <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
+           <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
          </Nav>);
      }else{
        return (
          <Nav pullRight>
-         <LinkContainer to={{pathname: '/login'}}><NavItem>Login</NavItem></LinkContainer>
-         <LinkContainer to={{pathname: '/signup'}}><NavItem>Sign Up</NavItem></LinkContainer>
+           <LinkContainer to={{pathname: '/login'}}><NavItem>Login</NavItem></LinkContainer>
+           <LinkContainer to={{pathname: '/signup'}}><NavItem>Sign Up</NavItem></LinkContainer>
          </Nav>);
      }
    }

@@ -22,7 +22,7 @@ class SearchGiphy extends React.Component{
 
   handleSubmit(e) {
     e.preventDefault();
-    let useableoffset;
+    let useableoffset = 0;
     if(this.state.random){
       useableoffset = math.randomInt(1000);
     }

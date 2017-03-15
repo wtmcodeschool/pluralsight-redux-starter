@@ -22,7 +22,7 @@ class Library extends React.Component {
 
      return (
        <div className="col-md-12">
-        {this.prepareImages("library")}
+        {this.prepareImages()}
        </div>
      );
    }
