@@ -18,7 +18,6 @@ class SignUp extends React.Component {
   }
 
   handleUserSignUp(e){
-    // e.preventDefault();
     this.props.userStore.saveNewUser(this.state);
     this.props.userStore.authenticateUser(this.state);
   }

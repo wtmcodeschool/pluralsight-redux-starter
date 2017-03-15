@@ -26,7 +26,7 @@ router.route('/gifs')
     });
   })
   .get(function(req, res, next){
-    Gif.find(function(err, gifs){
+    Gif.find().populate("user", "name").exec(function(err, gifs){
       if(err){
         return next(err);
       } else {

@@ -3,6 +3,7 @@ import math from 'mathjs';
 import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
 import {observer, inject} from 'mobx-react';
+import ImageComponent from './ImageComponent';
 
 class SearchGiphy extends React.Component{
   constructor(props) {
@@ -10,30 +11,23 @@ class SearchGiphy extends React.Component{
     this.state = {
       keyword: "",
       limit: 5,
-      random: false,
-      offset: 0,
-      foundImages: []
+      random: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleKeywordChange = this.handleKeywordChange.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
     this.handleRandomChange = this.handleRandomChange.bind(this);
+    this.prepareImages = this.prepareImages.bind(this);
   }
 
   handleSubmit(e) {
-    let useableoffset = this.state.offset;
-    if(useableoffset != 0){
-      useableoffset = math.randomInt(100);
+    e.preventDefault();
+    let useableoffset;
+    if(this.state.random){
+      useableoffset = math.randomInt(1000);
     }
     this.props.imageStore.newGiphySearch(this.state.keyword, this.state.limit, useableoffset);
-  }
-
-  convertToShowGifs(keyword, foundImages){
-    return foundImages.map(image => ({
-      name: image.id,
-      url: image.images.original.url,
-      description: keyword + " " + image.slug
-    }));
+    this.setState({});
   }
 
   handleKeywordChange(e) {
@@ -45,19 +39,25 @@ class SearchGiphy extends React.Component{
   }
 
   handleRandomChange(e) {
-    const offset = math.randomInt(100);
     if(this.state.random)
     {
       this.setState({
-        random: false,
-        offset: 0
+        random: false
       });
     }else{
       this.setState({
-        random: true,
-        offset: offset
+        random: true
       });
     }
+  }
+
+  prepareImages() {
+  return this.props.imageStore.searchresults.map(function(img) {
+      return(<ImageComponent
+             key={img.name}
+             imageinfo={img}
+             typeofdisplay="searchresults"/>);
+    }, this);
   }
 
   render() {
@@ -80,13 +80,13 @@ class SearchGiphy extends React.Component{
                 <label> Randomize</label>
                 <input onChange={this.handleRandomChange} value={this.state.random} type="checkbox" id="random"/>
               </div>
-              <Link to="/searchresults"><Button onClick={this.handleSubmit} type="submit" className="btn btn-primary">Submit</Button></Link>
+              <Button onClick={this.handleSubmit} type="submit" className="btn btn-primary">Submit</Button>
            </form>
          </div>
          <div className="col-md-3">
          </div>
          <div className="col-xs-12 well">
-         {this.props.children}
+           {this.prepareImages()}
          </div>
        </div>
     );
@@ -95,8 +95,7 @@ class SearchGiphy extends React.Component{
 
 SearchGiphy.propTypes = {
   newGiphySearchResults: React.PropTypes.func,
-  imageStore: React.PropTypes.object,
-  children: React.PropTypes.object
+  imageStore: React.PropTypes.object
 };
 
 export default inject("imageStore")(observer(SearchGiphy));

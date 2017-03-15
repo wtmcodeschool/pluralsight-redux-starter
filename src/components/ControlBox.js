@@ -24,13 +24,22 @@ class ControlBox extends React.Component {
    createGifLinks(){
      if(this.props.userStore.isloggedin){
        return(
-         <NavDropdown title="Add A Gif" id="basic-nav-dropdown">
-         <LinkContainer to={{pathname: '/addbyurl'}}><MenuItem>Add By URL</MenuItem></LinkContainer>
-         <LinkContainer to={{pathname: '/searchgiphy'}}><MenuItem>Search Giphy</MenuItem></LinkContainer>
-         </NavDropdown>
+         <Nav>
+           <NavDropdown title="View Gifs" id="basic-nav-dropdown">
+             <LinkContainer to={{pathname: '/library'}}><NavItem>Entire Library</NavItem></LinkContainer>
+             <LinkContainer to={{pathname: '/personallibrary'}}><NavItem>Personal Library</NavItem></LinkContainer>
+           </NavDropdown>
+           <NavDropdown title="Add A Gif" id="basic-nav-dropdown">
+             <LinkContainer to={{pathname: '/addbyurl'}}><MenuItem>Add By URL</MenuItem></LinkContainer>
+             <LinkContainer to={{pathname: '/searchgiphy'}}><MenuItem>Search Giphy</MenuItem></LinkContainer>
+           </NavDropdown>
+         </Nav>
        );}else{
          return(
-           <LinkContainer to={{pathname: '/searchgiphy'}}><NavItem>Search Giphy</NavItem></LinkContainer>
+           <Nav>
+             <LinkContainer to={{pathname: '/library'}}><NavItem>View Library</NavItem></LinkContainer>
+             <LinkContainer to={{pathname: '/searchgiphy'}}><NavItem>Search Giphy</NavItem></LinkContainer>
+           </Nav>
          );
        }
    }
@@ -41,13 +50,13 @@ class ControlBox extends React.Component {
          <Nav pullRight>
          <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
          <LinkContainer to={{pathname: '/administration'}}><NavItem>Administration</NavItem></LinkContainer>
-         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={() => { this.logOutHandler(); }}>Log Out</NavItem></LinkContainer>
+         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
          </Nav>);
      }else if(this.props.userStore.isloggedin){
        return (
          <Nav pullRight>
          <Navbar .Text>Welcome {this.props.userStore.username}</Navbar .Text>
-         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={() => { this.logOutHandler(); }}>Log Out</NavItem></LinkContainer>
+         <LinkContainer to={{pathname: '/logout'}}><NavItem onClick={this.logOutHandler}>Log Out</NavItem></LinkContainer>
          </Nav>);
      }else{
        return (
@@ -62,7 +71,7 @@ class ControlBox extends React.Component {
      const userLinks = this.createUserLinks();
      const gifLinks = this.createGifLinks();
      return (
-       <div className="container-fluid">
+       <div className="container-fluid text-center">
           <Navbar inverse>
             <Navbar .Header>
               <Navbar .Brand>
@@ -71,10 +80,7 @@ class ControlBox extends React.Component {
             <Navbar .Toggle/>
             </Navbar .Header>
             <Navbar .Collapse>
-              <Nav>
-                <LinkContainer to={{pathname: '/library'}}><NavItem>View Library</NavItem></LinkContainer>
-                {gifLinks}
-              </Nav>
+              {gifLinks}
               {userLinks}
             </Navbar .Collapse>
           </Navbar>

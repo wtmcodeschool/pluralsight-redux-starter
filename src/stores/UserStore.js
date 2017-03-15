@@ -7,10 +7,41 @@ export default class UserStore {
       token: "",
       isadmin: false,
       isloggedin: false,
-      _idObject: null
+      _idObject: null,
+      userlist: []
     });
     this.saveNewUser = this.saveNewUser.bind(this);
     this.authenticateUser = this.authenticateUser.bind(this);
+    this.logUserOut = this.logUserOut.bind(this);
+    this.fetchUsers = this.fetchUsers.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.toggleAdmin = this.toggleAdmin.bind(this);
+  }
+
+  toggleAdmin(userid){
+    fetch('/users'+userid, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(result => result.json());
+  }
+
+  deleteUser(userid){
+    fetch('/users'+userid, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(result => result.json());
+  }
+
+  fetchUsers(){
+    fetch(`/users`)
+    .then(result => result.json())
+    .then(data => {this.userlist = data;});
   }
 
   logUserOut(){

@@ -1,4 +1,6 @@
 import { extendObservable } from 'mobx';
+import ImageComponent from '../components/ImageComponent';
+import React from 'react';
 
 export default class ImageStore {
   constructor() {
@@ -31,9 +33,10 @@ export default class ImageStore {
     }));
   }
 
-  saveToLibrary(incomingimage, userid){
+  saveToLibrary(incomingimage, userid, username){
     let img = incomingimage;
-    img.user = userid;
+    img.user._id = userid;
+    img.user = {_id: userid, name: username};
     fetch(`/gifs`, {
       method: 'POST',
       headers: {
@@ -44,7 +47,7 @@ export default class ImageStore {
         name: img.name,
         url: img.url,
         description: img.description,
-        user: userid
+        user: {_id: userid, name: username}
       })
     }).then(result => result.json()).then(res => {img._id = res._id;})
       .then(this.library.push(img));
@@ -66,7 +69,8 @@ export default class ImageStore {
     return foundImages.map(image => ({
       name: image.id,
       url: image.images.original.url,
-      description: keyword + " " + image.slug
+      description: keyword + " " + image.slug,
+      user: {_id: "notyetadded", name: null}
     }));
   }
 

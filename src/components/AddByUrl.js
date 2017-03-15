@@ -3,8 +3,6 @@ import {observer, inject} from 'mobx-react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-
-
 class AddByUrl extends React.Component {
 
    constructor() {
@@ -22,7 +20,7 @@ class AddByUrl extends React.Component {
    }
 
    handleNewGif(e){
-     this.props.imageStore.saveToLibrary(this.state, this.props.userStore._id);
+     this.props.imageStore.saveToLibrary(this.state, this.props.userStore);
    }
 
    handleNameChange(e){

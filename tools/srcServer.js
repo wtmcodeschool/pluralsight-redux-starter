@@ -50,7 +50,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/', gifRoutes);
-// app.use('/', userRoutes);
+app.use('/', userRoutes);
 
 app.post('/newuser', function(req, res) {
 
@@ -63,8 +63,6 @@ app.post('/newuser', function(req, res) {
 
   newUser.save(function(err) {
     if (err) throw err;
-    // res.redirect('/');
-    // console.log('User saved successfully');
     res.json(newUser);
   });
 });
@@ -140,7 +138,6 @@ app.use(function(req, res, next) {
 
   }
 });
-
 
 app.listen(port, function(err) {
   if (err) {
